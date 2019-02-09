@@ -4,9 +4,9 @@ Juego del Conecta4. La clase Tablero que incluye
 
 * Imprimir el tablero
 * Colocar ficha
-* Ganador en la horizontal
+* Ganador en la horizontal, vertical y las dos diagonales
 
-Utiliza para las colocaciones un vector de elementos libres
+Utiliza para las colocaciones un vector que indica la siguiente fila libre
 
 El start tiene
 * un objeto tablero
