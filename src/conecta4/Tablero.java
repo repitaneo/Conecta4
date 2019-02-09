@@ -97,7 +97,10 @@ public class Tablero {
 				// coloco la ficha en la [i,j]	
 				datos[i][j] = (turno==1)?'x':'o';
 				//miro si hay ganado
-				winner = ganadorHorizontal(i,j);
+				winner = 	ganadorHorizontal(i,j)|
+							ganadorVertical(i,j)|
+							ganadorDiagonalPrincipal(i,j)|
+							ganadorDiagonalSecundaria(i,j);
 				
 				// cambio el turno
 				turno = (turno==1)?2:1;
@@ -113,10 +116,33 @@ public class Tablero {
 	
 	
 
-
+	/**
+	 * 
+	 * @param i fila
+	 * @param j columna
+	 * @return
+	 */
 	private boolean ganadorVertical(int i, int j) {
+
+		boolean winner = false;
+		char comparar = (turno==1)?'x':'o';
 		
-		return false;
+		// Si hay filas como para poder mirar "hacia abajo" en 
+		// el tablero 4 posiciones
+		if(i<=FILAS-4) {
+			
+			// si hay 4 coincidencias
+			if(	(datos[i][j]==comparar)&
+				(datos[i+1][j]==comparar)&	
+				(datos[i+2][j]==comparar)&	
+				(datos[i+3][j]==comparar)) {
+				
+				// hay un ganador
+				winner = true;
+			}
+		}
+			
+		return winner;
 	}	
 
 	
@@ -169,7 +195,106 @@ public class Tablero {
 	}
 	
 	
+	
+	
 
+	
+	/**
+	 * 
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	private boolean ganadorDiagonalPrincipal(int i, int j) {
 		
+		int coincidencias = 0;
+		boolean hayGanador = false;
+		char comparar = (turno==1)?'x':'o';
+		
+		// desde la posición donde coloqué la última ficha -3 columnas
+		// empiezo a mirar
+		int columna=j-3;
+		int fila=i-3;
+		
+		// me meto en un bucle a mirar hasta la pocición
+		// + 3 columnas
+		// salgo si llego a ese limite o si encuentro un ganador
+		while((columna<=j+3)&&(fila<=i+3)&&((!hayGanador))) {
+			
+			// me protejo para no salir del tablero
+			if((columna>=0)&&(columna<COLUMNAS)&&
+			   (fila>=0)&&(fila<FILAS)) {
+				
+				// si lo que hay es lo que busco
+				// aumento las coincidencias
+				if(datos[fila][columna] == comparar) {
+					coincidencias++;
+				}
+				// sino las pongo a 0 ya que deben ser 4 consecutivas
+				else coincidencias = 0;
+				
+				// si alcancé 4 coincidencias hay un ganador
+				if(coincidencias==4) {
+					hayGanador=true;
+				}
+			}
+			// avanzo la columna
+			columna++;
+			fila++;
+		}
+		// devuelvo si encontré (o no) un ganador
+		return hayGanador;
+	}	
+	
+
+	/**
+	 * 
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	private boolean ganadorDiagonalSecundaria(int i, int j) {
+		
+		int coincidencias = 0;
+		boolean hayGanador = false;
+		char comparar = (turno==1)?'x':'o';
+		
+		// desde la posición donde coloqué la última ficha -3 columnas
+		// empiezo a mirar
+		int columna=j-3;
+		int fila=i+3;
+		
+		// me meto en un bucle a mirar hasta la pocición
+		// + 3 columnas
+		// salgo si llego a ese limite o si encuentro un ganador
+		while((columna<=j+3)&&(fila<=i+3)&&((!hayGanador))) {
+			
+			// me protejo para no salir del tablero
+			if((columna>=0)&&(columna<COLUMNAS)&&
+			   (fila>=0)&&(fila<FILAS)) {
+				
+				// si lo que hay es lo que busco
+				// aumento las coincidencias
+				if(datos[fila][columna] == comparar) {
+					coincidencias++;
+				}
+				// sino las pongo a 0 ya que deben ser 4 consecutivas
+				else coincidencias = 0;
+				
+				// si alcancé 4 coincidencias hay un ganador
+				if(coincidencias==4) {
+					hayGanador=true;
+				}
+			}
+			// avanzo la columna
+			columna++;
+			fila--;
+		}
+		// devuelvo si encontré (o no) un ganador
+		return hayGanador;
+	}	
+	
+
+			
 
 }
